@@ -7,7 +7,9 @@ require("beautiful")
 -- Notification library
 require("naughty")
 -- Vicious Widgets Library
-vicious = require("vicious")
+require("vicious")
+-- Volume Widget
+require("volume")
 
 -- Load Debian menu entries
 require("debian.menu")
@@ -182,7 +184,7 @@ for s = 1, screen.count() do
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
-        mytextclock,
+        mytextclock, volume_widget,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
@@ -230,6 +232,14 @@ globalkeys = awful.util.table.join(
             end
         end),
 
+    -- Volume control
+    awful.key({ }, "XF86AudioRaiseVolume", function ()
+       awful.util.spawn("amixer set Master 9%+") end),
+    awful.key({ }, "XF86AudioLowerVolume", function ()
+       awful.util.spawn("amixer set Master 9%-") end),
+    awful.key({ }, "XF86AudioMute", function ()
+       awful.util.spawn("amixer sset Master toggle") end),
+    
     -- Standard program
     awful.key({ modkey,           }, "Return", function () awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
