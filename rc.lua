@@ -75,13 +75,17 @@ layouts =
 -- }}}
 
 -- {{{ Tags
--- Define a tag table which hold all screen tags.
-tags = {}
-for s = 1, screen.count() do
-    -- Each screen has its own tag table.
-    tags[s] = awful.tag({ 1, 2, 3, 4, 5, 6, 7, 8, 9 }, s, layouts[1])
-end
--- }}}
+ -- Define a tag table which will hold all screen tags.
+ tags = {
+   names  = { "desktop", "web", "xterm", "emacs", "scratch", },
+   layout = { layouts[1], layouts[1], layouts[2], layouts[5], layouts[6],
+              layouts[12], layouts[9], layouts[3], layouts[7]
+ }}
+ for s = 1, screen.count() do
+     -- Each screen has its own tag table.
+     tags[s] = awful.tag(tags.names, s, tags.layout)
+ end
+ -- }}}
 
 -- {{{ Menu
 -- Create a laucher widget and a main menu
@@ -103,6 +107,22 @@ mylauncher = awful.widget.launcher({ image = image(beautiful.awesome_icon),
 -- }}}
 
 -- {{{ Wibox
+
+-- Battery widget
+batwidget = awful.widget.progressbar()
+batwidget:set_width(15)
+batwidget:set_height(25)
+batwidget:set_vertical(true)
+batwidget:set_background_color("#494B4F")
+batwidget:set_border_color(nil)
+batwidget:set_color("#AECF96")
+batwidget:set_gradient_colors({ "#AECF96", "#88A175", "#FF5656" })
+vicious.register(batwidget, vicious.widgets.bat, "$2", 61, "BAT0")
+
+-- Battery 2 widget
+batwidget2 = widget({ type = "textbox" })
+vicious.register(batwidget2, vicious.widgets.bat, "battery:$2", 61, "BAT1")
+
 -- Create a textclock widget
 mytextclock = awful.widget.textclock({ align = "right" })
 
@@ -184,7 +204,10 @@ for s = 1, screen.count() do
             layout = awful.widget.layout.horizontal.leftright
         },
         mylayoutbox[s],
-        mytextclock, volume_widget,
+        mytextclock, 
+	volume_widget,
+	batwidget,
+	batwidget2,
         s == 1 and mysystray or nil,
         mytasklist[s],
         layout = awful.widget.layout.horizontal.rightleft
