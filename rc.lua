@@ -89,7 +89,7 @@ local layouts = {
 
 -- {{{ Tags
 tags = {
-   names = { "web", "term", "docs", "media", "files", "other" },
+   names = { "files", "web", "term", "code", "media", "other" },
    layout = { layouts[1], layouts[3], layouts[4], layouts[1], layouts[7], layouts[1] }
 }
 for s = 1, screen.count() do
