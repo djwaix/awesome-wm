@@ -6,4 +6,4 @@
 
 #i3lock -i $LOCKSCREENIMG
 
-exec xautolock -detectsleep -time 3 -locker "betterlockscreen -l dim"
+exec xautolock -detectsleep -time 8 -locker "betterlockscreen -l dim"
